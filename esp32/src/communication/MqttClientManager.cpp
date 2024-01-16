@@ -45,7 +45,7 @@ void MqttClientManager::reconnect() {
     Serial.print("Attempting MQTT connection...");
     
     // Create a random client ID
-    String clientId = String("sensorBoardId-")+String(random(0xffff), HEX);
+    String clientId = String("espDevice-")+String(random(0xffff), HEX);
 
     Serial.println(clientId);
     // Attempt to connect

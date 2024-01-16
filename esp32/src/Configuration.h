@@ -3,7 +3,7 @@
 
 #define SSID "esp"
 #define PASSWORD "mioEsp1833"
-#define MQTT_SERVER "broker.hivemq.com"
+#define MQTT_SERVER "broker.emqx.io"
 #define PORT 1883
 #define TOPIC "thesisUnibo87545"
 

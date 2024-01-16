@@ -1,7 +1,9 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include "Configuration.h"
+#include "communication/MqttClientManager.h"
 
+/*
 const char *ssid = "esp";
 const char *password = "mioEsp1234";
 
@@ -9,6 +11,7 @@ const char *mqtt_server = "broker.hivemq.com";
 const int mqtt_port = 1883;
 const char *mqtt_user = "";
 const char *mqtt_password = "";
+
 
 
 WiFiClient espClient;
@@ -48,6 +51,7 @@ void reconnect() {
 void setup() {
   Serial.begin(BOUND_RATE);
 
+/*
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
@@ -69,5 +73,18 @@ void loop() {
   }
 
   client.loop();
+}*/
+
+MqttClientManager* mqttManager;
+
+
+void setup() {
+  Serial.begin(BOUND_RATE);
+  mqttManager = new MqttClientManager(SSID, PASSWORD, TOPIC, MQTT_SERVER, PORT);
+  mqttManager->initConnection();
 }
 
+void loop() {
+  mqttManager->sendJsonMessage("Hello");
+  sleep(10);
+}
