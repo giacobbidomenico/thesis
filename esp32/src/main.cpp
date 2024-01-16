@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include "Configuration.h"
 
 const char *ssid = "esp";
 const char *password = "mioEsp1234";
@@ -33,7 +34,7 @@ void reconnect() {
 
     if (client.connect(clientId.c_str())) {
       Serial.println("Connesso al broker MQTT");
-      client.subscribe("exampleJson");
+      client.subscribe("thesisUnibo");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -45,7 +46,7 @@ void reconnect() {
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(BOUND_RATE);
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);

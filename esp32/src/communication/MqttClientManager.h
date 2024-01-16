@@ -3,6 +3,7 @@
 
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include "../Configuration.h"
 
 //Class that manages communications through the MQTT protocol
 class MqttClientManager {
