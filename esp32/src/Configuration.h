@@ -3,9 +3,9 @@
 
 #define SSID "esp"
 #define PASSWORD "mioEsp1833"
-#define MQTT_SERVER "broker.emqx.io"
+#define MQTT_SERVER "mqtt.eclipseprojects.io"
 #define PORT 1883
-#define TOPIC "thesisUnibo87545"
+#define TOPIC "thesisUnibo1933"
 
 #define MSG_BUFFER_SIZE 50
 
