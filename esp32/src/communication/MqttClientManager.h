@@ -3,6 +3,7 @@
 
 #include <WiFi.h>
 #include <PubSubClient.h>
+#include <ArduinoJson.h>
 #include "../Configuration.h"
 
 //Class that manages communications through the MQTT protocol
@@ -28,7 +29,12 @@ class MqttClientManager {
     void sendJsonMessage(String jsonMessage);
     void tick();
     static void callback(char* topic, byte* payload, unsigned int length) {
-      Serial.println(String("Message arrived on [") + topic + "] len: " + length ); 
+      JsonDocument doc;
+      deserializeJson(doc, payload);
+      Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
+      int pin = doc["pin"];
+      const char* value = doc["value"];
+      Serial.println(pin);
     }
 };
 
