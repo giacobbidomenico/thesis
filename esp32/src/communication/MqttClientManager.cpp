@@ -13,8 +13,7 @@ MqttClientManager::~MqttClientManager() {
 
 }
 
-//Configure the MQTT connection
-void MqttClientManager::initConnection() {
+void MqttClientManager::establishWifiConnection() {
   delay(10);
 
   Serial.println(String("Connecting to ") + ssid);
@@ -31,10 +30,15 @@ void MqttClientManager::initConnection() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+}
 
+//Configure the MQTT connection
+void MqttClientManager::establishMqttConnection() {
+  this->establishWifiConnection();
   client.setServer(mqttServer.c_str(), port);
   client.setCallback(MqttClientManager::callback);
   client.setKeepAlive(2*60*60);
+  reconnect();
 }
 
 //Reconnect to the broker
@@ -59,6 +63,8 @@ void MqttClientManager::reconnect() {
       delay(5000);
     }
   }
+
+  client.loop();
 }
 
 //Send a message with the Mqtt protocol
@@ -67,8 +73,6 @@ void MqttClientManager::sendJsonMessage(String jsonMessage) {
   if(!client.connected()) {
     reconnect();
   }
-
-  client.loop();
 
 
   jsonMessage.toCharArray(msg, MSG_BUFFER_SIZE);

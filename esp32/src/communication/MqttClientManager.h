@@ -19,8 +19,9 @@ class MqttClientManager {
   public:
     MqttClientManager(String ssid, String password, String topic, String mqttServer, int port);
     ~MqttClientManager();
+    void establishWifiConnection();
     //Configure the MQTT connection
-    void initConnection();
+    void establishMqttConnection();
     //Reconnect to the broker
     void reconnect();
     //Send a message with the Mqtt protocol

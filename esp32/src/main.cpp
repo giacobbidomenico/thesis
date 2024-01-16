@@ -81,7 +81,7 @@ MqttClientManager* mqttManager;
 void setup() {
   Serial.begin(BOUND_RATE);
   mqttManager = new MqttClientManager(SSID, PASSWORD, TOPIC, MQTT_SERVER, PORT);
-  mqttManager->initConnection();
+  mqttManager->establishMqttConnection();
 }
 
 void loop() {
