@@ -26,6 +26,7 @@ class MqttClientManager {
     void reconnect();
     //Send a message with the Mqtt protocol
     void sendJsonMessage(String jsonMessage);
+    void tick();
     static void callback(char* topic, byte* payload, unsigned int length) {
       Serial.println(String("Message arrived on [") + topic + "] len: " + length ); 
     }

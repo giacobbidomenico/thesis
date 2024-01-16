@@ -85,6 +85,5 @@ void setup() {
 }
 
 void loop() {
-  mqttManager->sendJsonMessage("Hello");
-  sleep(10);
+  mqttManager->tick();
 }

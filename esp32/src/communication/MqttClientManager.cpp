@@ -63,8 +63,6 @@ void MqttClientManager::reconnect() {
       delay(5000);
     }
   }
-
-  client.loop();
 }
 
 //Send a message with the Mqtt protocol
@@ -74,8 +72,11 @@ void MqttClientManager::sendJsonMessage(String jsonMessage) {
     reconnect();
   }
 
-
   jsonMessage.toCharArray(msg, MSG_BUFFER_SIZE);
   Serial.println(String("Publishing message: ") + msg);
   client.publish(topic.c_str(), msg);
+}
+
+void MqttClientManager::tick() {
+  client.loop();
 }
