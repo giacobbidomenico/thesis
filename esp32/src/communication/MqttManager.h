@@ -9,25 +9,17 @@
 //Class that manages communications through the MQTT protocol
 class MqttManager {
   private:
-    String ssid;
-    String password;
-    WiFiClient espClient;
-    PubSubClient client;
-    int port;
-    String topic;
-    String mqttServer;
-    char msg[MSG_BUFFER_SIZE];
+    static WiFiClient espClient;
+    static PubSubClient client;
   public:
-    MqttManager(String ssid, String password, String topic, String mqttServer, int port);
-    ~MqttManager();
-    void establishWifiConnection();
+    static void establishWifiConnection();
     //Configure the MQTT connection
-    void establishMqttConnection();
+    static void establishMqttConnection();
     //Reconnect to the broker
-    void reconnect();
+    static void reconnect();
     //Send a message with the Mqtt protocol
-    void sendJsonMessage(String jsonMessage);
-    void tick();
+    static void sendJsonMessage(String jsonMessage);
+    static void tick();
     static void callback(char* topic, byte* payload, unsigned int length);
 };
 
