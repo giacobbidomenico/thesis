@@ -13,4 +13,7 @@
 
 #define BOUND_RATE 115200
 
+#define INPUT_TYPE 0
+#define OUTPUT_TYPE 1
+
 #endif

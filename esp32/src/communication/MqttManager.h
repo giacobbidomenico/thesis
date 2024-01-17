@@ -37,13 +37,22 @@ class MqttManager {
       int pin = doc["pin"];
       int value = doc["value"];
 
-
       if(deviceId == DEVICE_ID) {
-        if(type == 0) {
+        if(type == INPUT_TYPE) {
           Serial.println(value ? "HIGH" : "LOW");
           pinMode(pin, OUTPUT);
           digitalWrite(pin, HIGH);
-        } else {
+        }
+        if(type == OUTPUT_TYPE) {
+          pinMode(pin, INPUT);
+          int isAnalog = doc["isAnalog"];
+          double value;
+          if(isAnalog) {
+            value = analogRead(pin);
+          } else {
+            value = digitalRead(pin);
+          }
+          //sendJsonMessage(String("{\"value\":}" + value));
         }
       }
     }

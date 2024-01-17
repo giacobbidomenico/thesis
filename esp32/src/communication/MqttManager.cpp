@@ -67,7 +67,6 @@ void MqttManager::reconnect() {
 
 //Send a message with the Mqtt protocol
 void MqttManager::sendJsonMessage(String jsonMessage) {
-
   if(!client.connected()) {
     reconnect();
   }
