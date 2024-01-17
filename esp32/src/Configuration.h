@@ -3,6 +3,8 @@
 
 #define SSID "esp"
 #define PASSWORD "mioEsp1833"
+
+#define DEVICE_ID 2
 #define MQTT_SERVER "mqtt.eclipseprojects.io"
 #define PORT 1883
 #define TOPIC "thesisUnibo1933"
