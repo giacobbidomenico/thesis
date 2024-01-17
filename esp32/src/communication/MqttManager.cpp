@@ -1,6 +1,6 @@
-#include "MqttClientManager.h"
+#include "MqttManager.h"
 
-MqttClientManager::MqttClientManager(String ssid, String password, String topic, String mqttServer, int port) : client(espClient) {
+MqttManager::MqttManager(String ssid, String password, String topic, String mqttServer, int port) : client(espClient) {
   this->ssid = ssid;
   this->password  = password;
   this->topic = topic;
@@ -9,11 +9,11 @@ MqttClientManager::MqttClientManager(String ssid, String password, String topic,
   randomSeed(micros());
 }
 
-MqttClientManager::~MqttClientManager() {
+MqttManager::~MqttManager() {
 
 }
 
-void MqttClientManager::establishWifiConnection() {
+void MqttManager::establishWifiConnection() {
   delay(10);
 
   Serial.println(String("Connecting to ") + ssid);
@@ -33,16 +33,16 @@ void MqttClientManager::establishWifiConnection() {
 }
 
 //Configure the MQTT connection
-void MqttClientManager::establishMqttConnection() {
+void MqttManager::establishMqttConnection() {
   this->establishWifiConnection();
   client.setServer(mqttServer.c_str(), port);
-  client.setCallback(MqttClientManager::callback);
+  client.setCallback(MqttManager::callback);
   client.setKeepAlive(2*60*60);
   reconnect();
 }
 
 //Reconnect to the broker
-void MqttClientManager::reconnect() {
+void MqttManager::reconnect() {
 
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -66,7 +66,7 @@ void MqttClientManager::reconnect() {
 }
 
 //Send a message with the Mqtt protocol
-void MqttClientManager::sendJsonMessage(String jsonMessage) {
+void MqttManager::sendJsonMessage(String jsonMessage) {
 
   if(!client.connected()) {
     reconnect();
@@ -77,6 +77,6 @@ void MqttClientManager::sendJsonMessage(String jsonMessage) {
   client.publish(topic.c_str(), msg);
 }
 
-void MqttClientManager::tick() {
+void MqttManager::tick() {
   client.loop();
 }

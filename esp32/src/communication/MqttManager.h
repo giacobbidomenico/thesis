@@ -7,7 +7,7 @@
 #include "../Configuration.h"
 
 //Class that manages communications through the MQTT protocol
-class MqttClientManager {
+class MqttManager {
   private:
     String ssid;
     String password;
@@ -18,8 +18,8 @@ class MqttClientManager {
     String mqttServer;
     char msg[MSG_BUFFER_SIZE];
   public:
-    MqttClientManager(String ssid, String password, String topic, String mqttServer, int port);
-    ~MqttClientManager();
+    MqttManager(String ssid, String password, String topic, String mqttServer, int port);
+    ~MqttManager();
     void establishWifiConnection();
     //Configure the MQTT connection
     void establishMqttConnection();
@@ -42,7 +42,7 @@ class MqttClientManager {
         if(type == 0) {
           Serial.println(value ? "HIGH" : "LOW");
           pinMode(pin, OUTPUT);
-          digitalWrite(pin, value);
+          digitalWrite(pin, HIGH);
         } else {
         }
       }
