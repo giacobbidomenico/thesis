@@ -32,9 +32,20 @@ class MqttClientManager {
       JsonDocument doc;
       deserializeJson(doc, payload);
       Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
+      int deviceId = doc["deviceId"];
+      int type = doc["type"];
       int pin = doc["pin"];
-      const char* value = doc["value"];
-      Serial.println(pin);
+      int value = doc["value"];
+
+
+      if(deviceId == DEVICE_ID) {
+        if(type == 0) {
+          Serial.println(value ? "HIGH" : "LOW");
+          pinMode(pin, OUTPUT);
+          digitalWrite(pin, value);
+        } else {
+        }
+      }
     }
 };
 
