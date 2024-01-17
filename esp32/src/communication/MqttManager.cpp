@@ -82,21 +82,24 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
     int value = doc["value"];
 
     if(deviceId == DEVICE_ID) {
-      if(type == INPUT_TYPE) {
-        Serial.println(value ? "HIGH" : "LOW");
-        pinMode(pin, OUTPUT);
-        digitalWrite(pin, HIGH);
-      }
-      if(type == OUTPUT_TYPE) {
-        pinMode(pin, INPUT);
-        int isAnalog = doc["isAnalog"];
-        double value;
-        if(isAnalog) {
-          value = analogRead(pin);
-        } else {
-          value = digitalRead(pin);
-        }
-        MqttManager::sendJsonMessage(String("{\"value\":}" + String(value)));
+      switch (type)
+      {
+        case INPUT_TYPE:
+          Serial.println(value ? "HIGH" : "LOW");
+          pinMode(pin, OUTPUT);
+          digitalWrite(pin, HIGH);
+          break;
+        case OUTPUT_TYPE:
+          pinMode(pin, INPUT);
+          int isAnalog = doc["isAnalog"];
+          double value;
+          if(isAnalog) {
+            value = analogRead(pin);
+          } else {
+            value = digitalRead(pin);
+          }
+          MqttManager::sendJsonMessage(String("{\"value\":}" + String(value)));
+          break;
       }
     }
 }
