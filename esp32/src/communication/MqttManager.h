@@ -28,34 +28,7 @@ class MqttManager {
     //Send a message with the Mqtt protocol
     void sendJsonMessage(String jsonMessage);
     void tick();
-    static void callback(char* topic, byte* payload, unsigned int length) {
-      JsonDocument doc;
-      deserializeJson(doc, payload);
-      Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
-      int deviceId = doc["deviceId"];
-      int type = doc["type"];
-      int pin = doc["pin"];
-      int value = doc["value"];
-
-      if(deviceId == DEVICE_ID) {
-        if(type == INPUT_TYPE) {
-          Serial.println(value ? "HIGH" : "LOW");
-          pinMode(pin, OUTPUT);
-          digitalWrite(pin, HIGH);
-        }
-        if(type == OUTPUT_TYPE) {
-          pinMode(pin, INPUT);
-          int isAnalog = doc["isAnalog"];
-          double value;
-          if(isAnalog) {
-            value = analogRead(pin);
-          } else {
-            value = digitalRead(pin);
-          }
-          //sendJsonMessage(String("{\"value\":}" + value));
-        }
-      }
-    }
+    static void callback(char* topic, byte* payload, unsigned int length);
 };
 
 #endif
