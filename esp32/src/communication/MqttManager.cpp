@@ -46,7 +46,7 @@ void MqttManager::reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-      client.subscribe(String(TOPIC).c_str());
+      client.subscribe(String(TOPIC_OUTPUT).c_str());
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -65,7 +65,7 @@ void MqttManager::sendJsonMessage(String jsonMessage) {
 
   jsonMessage.toCharArray(msg, MSG_BUFFER_SIZE);
   Serial.println(String("Publishing message: ") + msg);
-  client.publish(String(TOPIC).c_str(), msg);
+  client.publish(String(TOPIC_INPUT).c_str(), msg);
 }
 
 void MqttManager::tick() {
@@ -77,12 +77,13 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
     deserializeJson(doc, payload);
     Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
     int deviceId = doc["deviceId"];
-    int type = doc["type"];
+    int input = doc["input"];
     int pin = doc["pin"];
     int value = doc["value"];
 
     if(deviceId == DEVICE_ID) {
-      switch (type)
+      Serial.println(input);
+      switch (input)
       {
         case INPUT_TYPE:
           Serial.println(value ? "HIGH" : "LOW");
@@ -90,6 +91,7 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
           digitalWrite(pin, value);
           break;
         case OUTPUT_TYPE:
+          Serial.println("Output");
           pinMode(pin, INPUT);
           int isAnalog = doc["isAnalog"];
           double value;
@@ -98,7 +100,7 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
           } else {
             value = digitalRead(pin);
           }
-          MqttManager::sendJsonMessage(String("{\"value\":}" + String(value)));
+          MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
           break;
       }
     }

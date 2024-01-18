@@ -7,7 +7,9 @@
 #define DEVICE_ID 2
 #define MQTT_SERVER "mqtt.eclipseprojects.io"
 #define PORT 1883
-#define TOPIC "thesisUnibo1933"
+
+#define TOPIC_INPUT "thesisIngSInfUnibo2024input"
+#define TOPIC_OUTPUT "thesisIngSInfUnibo2024output"
 
 #define MSG_BUFFER_SIZE 50
 
