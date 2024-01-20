@@ -100,7 +100,6 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
           } else {
             value = digitalRead(pin);
           }
-          value = 5;
           MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
           break;
       }
