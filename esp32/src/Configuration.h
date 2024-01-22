@@ -15,8 +15,15 @@
 
 #define BOUND_RATE 115200
 
-#define ADD_COMMAND_TYPE 0
-#define INPUT_TYPE 1
-#define OUTPUT_TYPE 2
+#define COMMAND_LIST_SIZE 100
+
+#define INIT_COMMAND_LIST 0
+#define ADD_OUTPUT 1
+#define ADD_INPUT 2
+#define EXECUTE_COMMAND_LIST 3
+
+
+#define OUTPUT_TYPE 0
+#define INPUT_TYPE  1
 
 #endif

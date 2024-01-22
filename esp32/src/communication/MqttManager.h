@@ -9,6 +9,8 @@
 //Class that manages communications through the MQTT protocol
 class MqttManager {
   private:
+    static int commandList[COMMAND_LIST_SIZE];
+    static int newCommandIndex;
     static WiFiClient espClient;
     static PubSubClient client;
   public:

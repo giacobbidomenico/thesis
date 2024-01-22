@@ -85,24 +85,36 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
       Serial.println(input);
       switch (input)
       {
-        case ADD_COMMAND_TYPE:
+        case INIT_COMMAND_LIST:
+          newCommandIndex = 0;
           break;
-        case INPUT_TYPE:
-          Serial.println(value ? "HIGH" : "LOW");
-          pinMode(pin, OUTPUT);
-          digitalWrite(pin, value);
+        case ADD_OUTPUT:
+          commandList[newCommandIndex] = OUTPUT_TYPE;
+          newCommandIndex++;
           break;
-        case OUTPUT_TYPE:
-          Serial.println("Output");
-          pinMode(pin, INPUT);
-          int isAnalog = doc["isAnalog"];
-          double value;
-          if(isAnalog) {
-            value = analogRead(pin);
-          } else {
-            value = digitalRead(pin);
+        case ADD_INPUT:
+          commandList[newCommandIndex] = INPUT_TYPE;
+          newCommandIndex++;
+          break;
+        case EXECUTE_COMMAND_LIST:
+          int i;
+          for(i = 0; i < newCommandIndex; i++) {
+            if(commandList[i] == OUTPUT_TYPE) {
+              pinMode(pin, OUTPUT);
+              digitalWrite(pin, value);
+            } else {
+              pinMode(pin, INPUT);
+              int isAnalog = doc["isAnalog"];
+              double value;
+              if(isAnalog) {
+                value = analogRead(pin);
+              } else {
+                value = digitalRead(pin);
+              }
+              MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
+            }
           }
-          MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
+          newCommandIndex = 0;
           break;
       }
     }
