@@ -5,7 +5,7 @@
 #define PASSWORD "mioEsp1833"
 
 #define DEVICE_ID 2
-#define MQTT_SERVER "mqtt.eclipseprojects.io"
+#define MQTT_SERVER "broker.emqx.io"
 #define PORT 1883
 
 #define TOPIC_INPUT "thesisIngSInfUnibo2024Input"
