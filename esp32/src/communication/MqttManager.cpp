@@ -85,6 +85,8 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
       Serial.println(input);
       switch (input)
       {
+        case ADD_COMMAND_TYPE:
+          break;
         case INPUT_TYPE:
           Serial.println(value ? "HIGH" : "LOW");
           pinMode(pin, OUTPUT);

@@ -15,7 +15,8 @@
 
 #define BOUND_RATE 115200
 
-#define INPUT_TYPE 0
-#define OUTPUT_TYPE 1
+#define ADD_COMMAND_TYPE 0
+#define INPUT_TYPE 1
+#define OUTPUT_TYPE 2
 
 #endif
