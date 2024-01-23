@@ -4,6 +4,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
+#include <IPAddress.h>
 #include "../Configuration.h"
 
 //Class that manages communications through the MQTT protocol

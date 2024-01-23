@@ -25,8 +25,10 @@ void MqttManager::establishWifiConnection() {
 
 //Configure the MQTT connection
 void MqttManager::establishMqttConnection() {
+  IPAddress mqttServer;
+  mqttServer.fromString(MQTT_SERVER);
   MqttManager::establishWifiConnection();
-  client.setServer(String(MQTT_SERVER).c_str(), PORT);
+  client.setServer(mqttServer, PORT);
   client.setCallback(MqttManager::callback);
   client.setKeepAlive(2*60*60);
   MqttManager::reconnect();
@@ -40,7 +42,7 @@ void MqttManager::reconnect() {
     Serial.print("Attempting MQTT connection...");
     
     // Create a random client ID
-    String clientId = String("espDevice-")+String(random(0xffff), HEX);
+    String clientId = String("espDevice-")+String(random(0xfffffff), HEX);
 
     Serial.println(clientId);
     // Attempt to connect
@@ -86,12 +88,13 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
       switch (input)
       {
         case INPUT_TYPE:
+          Serial.println("Output");
           Serial.println(value ? "HIGH" : "LOW");
           pinMode(pin, OUTPUT);
           digitalWrite(pin, value);
           break;
         case OUTPUT_TYPE:
-          Serial.println("Output");
+          Serial.println("Input");
           pinMode(pin, INPUT);
           int isAnalog = doc["isAnalog"];
           double value;
