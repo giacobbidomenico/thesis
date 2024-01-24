@@ -5,7 +5,7 @@
 #define PASSWORD "mioEsp1833"
 
 #define DEVICE_ID 2
-#define MQTT_SERVER "192.168.241.154"
+#define MQTT_SERVER "192.168.32.154"
 #define PORT 1883
 
 #define TOPIC_INPUT "thesisIngSInfUnibo2024Input"
