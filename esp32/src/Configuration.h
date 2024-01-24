@@ -18,4 +18,6 @@
 #define INPUT_TYPE 0
 #define OUTPUT_TYPE 1
 
+#define PINMODE_TYPE 0
+
 #endif

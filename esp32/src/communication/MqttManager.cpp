@@ -78,6 +78,20 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
     JsonDocument doc;
     deserializeJson(doc, payload);
     Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
+    
+    int type = doc["type"];
+    int pin = doc["pin"];
+    int value = doc["value"];
+
+    switch (type)
+    {
+      case PINMODE_TYPE:
+        pinMode(pin, value);
+        break;
+      default:
+        break;
+    }
+    /*
     int deviceId = doc["deviceId"];
     int input = doc["input"];
     int pin = doc["pin"];
@@ -106,5 +120,6 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
           MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
           break;
       }
+      */
     }
 }
