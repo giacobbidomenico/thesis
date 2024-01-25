@@ -86,6 +86,7 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
 
     Serial.println(type);
     Serial.println(pin);
+    Serial.println(value);
     if(deviceId == DEVICE_ID) {
       switch (type)
       {
