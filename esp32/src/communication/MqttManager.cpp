@@ -93,9 +93,10 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
         case PINMODE_TYPE:
           Serial.println("pin mode");
           if(value == 0) {
-            pinMode(pin, INPUT);
-          } else {
             pinMode(pin, OUTPUT);
+          } else {
+            pinMode(pin, INPUT);
+            MqttManager::sendJsonMessage(String("{value:0}"));
           }
           break;
         case OUTPUT_TYPE:
