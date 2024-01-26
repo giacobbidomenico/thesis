@@ -29,7 +29,7 @@ void MqttManager::establishMqttConnection() {
   mqttServer.fromString(MQTT_SERVER);
   MqttManager::establishWifiConnection();
   client.setServer(mqttServer, PORT);
-  client.setCallback(MqttManager::callback);
+  client.setCallback(MqttManager::receiveJson);
   client.setKeepAlive(2*60*60);
   MqttManager::reconnect();
 }
@@ -74,7 +74,7 @@ void MqttManager::tick() {
   client.loop();
 }
 
-void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
+void MqttManager::receiveJson(char* topic, byte* payload, unsigned int length) {
     JsonDocument doc;
     deserializeJson(doc, payload);
     Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
@@ -96,12 +96,14 @@ void MqttManager::callback(char* topic, byte* payload, unsigned int length) {
             pinMode(pin, OUTPUT);
           } else {
             pinMode(pin, INPUT);
-            MqttManager::sendJsonMessage(String("{value:0}"));
           }
           break;
         case OUTPUT_TYPE:
           Serial.println("Output");
           digitalWrite(pin, value);
+          break;
+        case INPUT_TYPE:
+          Serial.println();
           break;
         default:
           break;

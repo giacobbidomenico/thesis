@@ -21,7 +21,7 @@ class MqttManager {
     //Send a message with the Mqtt protocol
     static void sendJsonMessage(String jsonMessage);
     static void tick();
-    static void callback(char* topic, byte* payload, unsigned int length);
+    static void receiveJson(char* topic, byte* payload, unsigned int length);
 };
 
 #endif
