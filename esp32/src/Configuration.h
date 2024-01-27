@@ -20,4 +20,6 @@
 #define OUTPUT_TYPE 1
 #define INPUT_TYPE 2
 
+#define NUM_INPUT_PIN 10
+
 #endif

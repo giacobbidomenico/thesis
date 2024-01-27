@@ -9,6 +9,10 @@ class Model
 {
     private:
         MqttManager* mqttManager;
+        static int inputPin[NUM_INPUT_PIN];
+        static int isAnalog[NUM_INPUT_PIN];
+        static int indexInputPin;
+
     public:
         Model();
         ~Model();

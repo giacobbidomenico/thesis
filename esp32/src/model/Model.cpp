@@ -3,6 +3,7 @@
 Model::Model() {
     this->mqttManager = new MqttManager();
     this->mqttManager->establishMqttConnection(&changeState);
+    Model::indexInputPin = 0;
 }
 
 
@@ -33,6 +34,8 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
             pinMode(pin, OUTPUT);
           } else {
             pinMode(pin, INPUT);
+            Model::inputPin[Model::indexInputPin] = pin;
+            Model::indexInputPin++;
           }
           break;
         case OUTPUT_TYPE:
@@ -80,4 +83,7 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
 
 void Model::tick() {
     this->mqttManager->tick();
+    for(int i=0; i < Model::indexInputPin; i++) {
+      
+    }
 }
