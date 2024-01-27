@@ -1,9 +1,11 @@
 #include "Model.h"
 
+Pin Model::inputPin[NUM_INPUT_PIN];
+int Model::indexInputPin = 0;
+
 Model::Model() {
     this->mqttManager = new MqttManager();
     this->mqttManager->establishMqttConnection(&changeState);
-    Model::indexInputPin = 0;
 }
 
 
@@ -34,7 +36,9 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
             pinMode(pin, OUTPUT);
           } else {
             pinMode(pin, INPUT);
-            Model::inputPin[Model::indexInputPin] = pin;
+            Model::inputPin[Model::indexInputPin].pin = pin;
+            Model::inputPin[Model::indexInputPin].digitalValue = 0;
+            Model::inputPin[Model::indexInputPin].analogValue = 0;
             Model::indexInputPin++;
           }
           break;
@@ -82,8 +86,29 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
 }
 
 void Model::tick() {
-    this->mqttManager->tick();
+    JsonDocument doc;
+    char msg[MSG_BUFFER_SIZE];
+    int changed = 0;
     for(int i=0; i < Model::indexInputPin; i++) {
+      int digitalValue = digitalRead(Model::inputPin[i].pin);
       
+      if(Model::inputPin[i].digitalValue != digitalValue) {
+        Model::inputPin[i].digitalValue = digitalValue;
+        changed = 1;
+        Serial.println("changed digital");
+      }
+      /*if(Model::inputPin[i].analogValue != analogValue) {
+        Model::inputPin[i].analogValue = analogValue;
+        changed = 1;
+      }*/
+      doc[i]["pin"] = Model::inputPin[i].pin;
+      doc[i]["digitalValue"] = Model::inputPin[i].digitalValue;
+      //doc[i]["analogValue"] = Model::inputPin[i].analogValue;
     }
+    if(changed != 0) {
+      serializeJson(doc, msg);
+      this->mqttManager->sendJsonMessage(msg);
+      changed = 0;
+    }
+    this->mqttManager->tick();
 }

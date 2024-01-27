@@ -8,6 +8,7 @@ Model* model;
 
 void setup() {
   Serial.begin(BOUND_RATE);
+  pinMode(1, INPUT);
   model = new Model();
 }
 
