@@ -1,7 +1,9 @@
 #include "MqttManager.h"
 
-WiFiClient MqttManager::espClient;
-PubSubClient MqttManager::client(MqttManager::espClient);
+
+MqttManager::MqttManager() : client(espClient) {
+
+}
 
 void MqttManager::establishWifiConnection() {
   randomSeed(micros());
@@ -24,14 +26,14 @@ void MqttManager::establishWifiConnection() {
 }
 
 //Configure the MQTT connection
-void MqttManager::establishMqttConnection() {
+void MqttManager::establishMqttConnection(void (*func)(char*, byte*, unsigned int)) {
   IPAddress mqttServer;
   mqttServer.fromString(MQTT_SERVER);
-  MqttManager::establishWifiConnection();
+  this->establishWifiConnection();
   client.setServer(mqttServer, PORT);
-  client.setCallback(MqttManager::receiveJson);
+  client.setCallback(func);
   client.setKeepAlive(2*60*60);
-  MqttManager::reconnect();
+  this->reconnect();
 }
 
 //Reconnect to the broker
@@ -72,72 +74,4 @@ void MqttManager::sendJsonMessage(String jsonMessage) {
 
 void MqttManager::tick() {
   client.loop();
-}
-
-void MqttManager::receiveJson(char* topic, byte* payload, unsigned int length) {
-    JsonDocument doc;
-    deserializeJson(doc, payload);
-    Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
-
-    int deviceId = doc["deviceId"];
-    int type = doc["type"];
-    int pin = doc["pin"];
-    int value = doc["value"];
-
-    Serial.println(type);
-    Serial.println(pin);
-    Serial.println(value);
-    if(deviceId == DEVICE_ID) {
-      switch (type)
-      {
-        case PINMODE_TYPE:
-          Serial.println("pin mode");
-          if(value == 0) {
-            pinMode(pin, OUTPUT);
-          } else {
-            pinMode(pin, INPUT);
-          }
-          break;
-        case OUTPUT_TYPE:
-          Serial.println("Output");
-          digitalWrite(pin, value);
-          break;
-        case INPUT_TYPE:
-          Serial.println();
-          break;
-        default:
-          break;
-      }
-    }
-
-    /*
-    int deviceId = doc["deviceId"];
-    int input = doc["input"];
-    int pin = doc["pin"];
-    int value = doc["value"];
-
-    if(deviceId == DEVICE_ID) {
-      Serial.println(input);
-      switch (input)
-      {
-        case INPUT_TYPE:
-          Serial.println("Output");
-          Serial.println(value ? "HIGH" : "LOW");
-          pinMode(pin, OUTPUT);
-          digitalWrite(pin, value);
-          break;
-        case OUTPUT_TYPE:
-          Serial.println("Input");
-          pinMode(pin, INPUT);
-          int isAnalog = doc["isAnalog"];
-          double value;
-          if(isAnalog) {
-            value = analogRead(pin);
-          } else {
-            value = digitalRead(pin);
-          }
-          MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
-          break;
-      }
-      */
 }

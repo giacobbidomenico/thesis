@@ -10,18 +10,18 @@
 //Class that manages communications through the MQTT protocol
 class MqttManager {
   private:
-    static WiFiClient espClient;
-    static PubSubClient client;
+    WiFiClient espClient;
+    PubSubClient client;
   public:
-    static void establishWifiConnection();
+    MqttManager();
+    void establishWifiConnection();
     //Configure the MQTT connection
-    static void establishMqttConnection();
+    void establishMqttConnection(void (*func)(char*, byte*, unsigned int));
     //Reconnect to the broker
-    static void reconnect();
+    void reconnect();
     //Send a message with the Mqtt protocol
-    static void sendJsonMessage(String jsonMessage);
-    static void tick();
-    static void receiveJson(char* topic, byte* payload, unsigned int length);
+    void sendJsonMessage(String jsonMessage);
+    void tick();
 };
 
 #endif
