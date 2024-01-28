@@ -18,8 +18,10 @@
 
 #define PINMODE_TYPE 0
 #define OUTPUT_TYPE 1
-#define INPUT_TYPE 2
 
 #define NUM_INPUT_PIN 10
+
+#define FALSE 0
+#define TRUE  1
 
 #endif

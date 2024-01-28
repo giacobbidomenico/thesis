@@ -10,11 +10,13 @@ class Model
 {
     private:
         MqttManager* mqttManager;
+        static int changed;
         static Pin inputPin[NUM_INPUT_PIN];
         static int indexInputPin;
     public:
         Model();
         ~Model();
+        static int isInputPin(int pin);
         static void changeState(char* topic, byte* payload, unsigned int length);
         void tick();
 };
