@@ -97,13 +97,9 @@ void Model::tick() {
         changed = 1;
         Serial.println("changed digital");
       }
-      /*if(Model::inputPin[i].analogValue != analogValue) {
-        Model::inputPin[i].analogValue = analogValue;
-        changed = 1;
-      }*/
+
       doc[i]["pin"] = Model::inputPin[i].pin;
       doc[i]["digitalValue"] = Model::inputPin[i].digitalValue;
-      //doc[i]["analogValue"] = Model::inputPin[i].analogValue;
     }
     if(changed != 0) {
       serializeJson(doc, msg);
