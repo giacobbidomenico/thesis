@@ -52,37 +52,6 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
           break;
       }
     }
-
-    /*
-    int deviceId = doc["deviceId"];
-    int input = doc["input"];
-    int pin = doc["pin"];
-    int value = doc["value"];
-
-    if(deviceId == DEVICE_ID) {
-      Serial.println(input);
-      switch (input)
-      {
-        case INPUT_TYPE:
-          Serial.println("Output");
-          Serial.println(value ? "HIGH" : "LOW");
-          pinMode(pin, OUTPUT);
-          digitalWrite(pin, value);
-          break;
-        case OUTPUT_TYPE:
-          Serial.println("Input");
-          pinMode(pin, INPUT);
-          int isAnalog = doc["isAnalog"];
-          double value;
-          if(isAnalog) {
-            value = analogRead(pin);
-          } else {
-            value = digitalRead(pin);
-          }
-          MqttManager::sendJsonMessage(String("{\"value\":" + String(value) + "}"));
-          break;
-      }
-      */
 }
 
 void Model::tick() {
@@ -101,10 +70,12 @@ void Model::tick() {
       doc[i]["pin"] = Model::inputPin[i].pin;
       doc[i]["digitalValue"] = Model::inputPin[i].digitalValue;
     }
+
     if(changed != 0) {
       serializeJson(doc, msg);
       this->mqttManager->sendJsonMessage(msg);
       changed = 0;
     }
+
     this->mqttManager->tick();
 }
