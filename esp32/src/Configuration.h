@@ -4,7 +4,7 @@
 #define SSID "esp"
 #define PASSWORD "mioEsp1833"
 
-#define DEVICE_ID 2
+#define DEVICE_GROUP 2
 #define MQTT_SERVER "192.168.32.154"
 #define PORT 1883
 

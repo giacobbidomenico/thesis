@@ -28,7 +28,7 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
     deserializeJson(doc, payload);
     Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
 
-    int deviceId = doc["deviceId"];
+    int deviceGroup = doc["deviceGroup"];
     int type = doc["type"];
     int pin = doc["pin"];
     int value = doc["value"];
@@ -37,7 +37,7 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
     Serial.println(pin);
     Serial.println(value);
 
-    if(deviceId == DEVICE_ID) {
+    if(deviceGroup == DEVICE_GROUP) {
       switch (type)
       {
         case PINMODE_TYPE:
