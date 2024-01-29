@@ -20,7 +20,7 @@ class MqttManager {
     //Reconnect to the broker
     void reconnect();
     //Send a message with the Mqtt protocol
-    void sendJsonMessage(String jsonMessage);
+    void sendJsonMessage(String topic, String jsonMessage);
     void tick();
 };
 

@@ -61,7 +61,7 @@ void MqttManager::reconnect() {
 }
 
 //Send a message with the Mqtt protocol
-void MqttManager::sendJsonMessage(String jsonMessage) {
+void MqttManager::sendJsonMessage(String topic, String jsonMessage) {
   char msg[MSG_BUFFER_SIZE];
   if(!client.connected()) {
     MqttManager::reconnect();
@@ -69,7 +69,7 @@ void MqttManager::sendJsonMessage(String jsonMessage) {
 
   jsonMessage.toCharArray(msg, MSG_BUFFER_SIZE);
   Serial.println(String("Publishing message: ") + msg);
-  client.publish(String(TOPIC_OUTPUT).c_str(), msg);
+  client.publish(topic.c_str(), msg);
 }
 
 void MqttManager::tick() {
