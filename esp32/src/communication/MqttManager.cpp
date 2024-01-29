@@ -9,10 +9,10 @@ void MqttManager::establishWifiConnection() {
   randomSeed(micros());
   delay(10);
 
-  Serial.println(String("Connecting to ") + SSID);
+  Serial.println(String("Connecting to ") + SSID_WIFI);
 
   WiFi.mode(WIFI_STA);
-  WiFi.begin(SSID, PASSWORD);
+  WiFi.begin(SSID_WIFI, PASSWORD_WIFI);
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);

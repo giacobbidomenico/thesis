@@ -1,7 +1,12 @@
 #ifndef _MQTT_CLIENT_MANAGER__
 #define _MQTT_CLIENT_MANAGER__
 
+#if defined(ESP32)
 #include <WiFi.h>
+#elif defined(ESP8266)
+#include <ESP8266WiFi.h>
+#endif
+
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <IPAddress.h>

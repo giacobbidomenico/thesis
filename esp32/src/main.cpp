@@ -1,7 +1,5 @@
-#include <WiFi.h>
-#include <PubSubClient.h>
+#include "Arduino.h"
 #include "Configuration.h"
-#include "communication/MqttManager.h"
 #include "model/Model.h"
 
 Model* model;

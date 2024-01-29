@@ -1,8 +1,8 @@
 #ifndef __CONFIGURATION__
 #define __CONFIGURATION__
 
-#define SSID "esp"
-#define PASSWORD "mioEsp1833"
+#define SSID_WIFI "esp"
+#define PASSWORD_WIFI "mioEsp1833"
 
 #define DEVICE_GROUP 2
 #define MQTT_SERVER "192.168.32.154"
@@ -13,7 +13,7 @@
 
 #define MSG_BUFFER_SIZE 50
 
-#define BOUND_RATE 115200
+#define BOUND_RATE 9600
 
 
 #define PINMODE_TYPE 0
@@ -23,5 +23,6 @@
 
 #define FALSE 0
 #define TRUE  1
+
 
 #endif
