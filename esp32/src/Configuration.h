@@ -11,7 +11,7 @@
 #define TOPIC_INPUT "thesisIngSInfUnibo2024Input"
 #define TOPIC_OUTPUT "thesisIngSInfUnibo2024Output"
 
-#define MSG_BUFFER_SIZE 50
+#define MSG_BUFFER_SIZE 100
 
 #define BOUND_RATE 9600
 

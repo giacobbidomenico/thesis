@@ -71,15 +71,20 @@ void Model::tick() {
 
     for(int i=0; i < Model::indexInputPin; i++) {
       int digitalValue = digitalRead(Model::inputPin[i].pin);
+      //delay(1000);
+      //int analogValue = analogRead(Model::inputPin[i].pin);
+      int analogValue = 0;
       
-      if(Model::inputPin[i].digitalValue != digitalValue) {
+      if(Model::inputPin[i].digitalValue != digitalValue || Model::inputPin[i].analogValue != analogValue) {
         Model::inputPin[i].digitalValue = digitalValue;
+        Model::inputPin[i].analogValue  = analogValue;
         Model::changed = TRUE;
-        Serial.println("changed digital");
+        Serial.println("changed");
       }
 
       if(Model::changed != FALSE) {
         doc["digitalValue"] = Model::inputPin[i].digitalValue;
+        doc["analogValue"]  = Model::inputPin[i].analogValue;
         serializeJson(doc, msg);
         String topic = String(TOPIC_OUTPUT);
         topic.concat(Model::inputPin[i].pin);

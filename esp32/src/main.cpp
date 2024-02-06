@@ -11,5 +11,6 @@ void setup() {
 }
 
 void loop() {
+  delay(100);
   model->tick();
 }
