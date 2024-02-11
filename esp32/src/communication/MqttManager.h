@@ -25,6 +25,7 @@ class MqttManager {
     //Reconnect to the broker
     void reconnect();
     //Send a message with the Mqtt protocol
+    void subscribeTopic(String topicName);
     void sendJsonMessage(String topic, String jsonMessage);
     void tick();
 };

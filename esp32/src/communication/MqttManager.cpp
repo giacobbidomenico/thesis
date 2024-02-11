@@ -50,7 +50,6 @@ void MqttManager::reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
-      client.subscribe(String(TOPIC_INPUT).c_str());
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -58,6 +57,10 @@ void MqttManager::reconnect() {
       delay(5000);
     }
   }
+}
+
+void MqttManager::subscribeTopic(String topicName) {
+  client.subscribe(topicName.c_str());
 }
 
 //Send a message with the Mqtt protocol

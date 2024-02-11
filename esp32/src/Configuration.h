@@ -4,12 +4,12 @@
 #define SSID_WIFI "esp"
 #define PASSWORD_WIFI "mioEsp1833"
 
-#define DEVICE_GROUP 2
+#define DEVICE_ID 2
 #define MQTT_SERVER "192.168.200.154"
 #define PORT 1883
 
-#define TOPIC_INPUT "thesisIngSInfUnibo2024Input"
-#define TOPIC_OUTPUT "thesisIngSInfUnibo2024Output"
+#define COMMAND_TOPIC "commandTopic"
+#define MESSAGE_TOPIC "messageTopic"
 
 #define MSG_BUFFER_SIZE 100
 

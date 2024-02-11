@@ -6,11 +6,10 @@ Model* model;
 
 void setup() {
   Serial.begin(BOUND_RATE);
-  pinMode(1, INPUT);
   model = new Model();
 }
 
 void loop() {
-  delay(100);
+  delay(10);
   model->tick();
 }
