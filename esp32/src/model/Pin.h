@@ -5,8 +5,8 @@ class Pin
 {
     public:
         int pin;
-        int analogValue;
-        int digitalValue;
+        int value;
+        bool isAnalog;
 };
 
 #endif

@@ -29,21 +29,15 @@ int Model::isInputPin(int pin) {
 void Model::changeState(char* topic, byte* payload, unsigned int length) {
     JsonDocument doc;
     deserializeJson(doc, payload);
-    Serial.println(String("Message arrived on [") + topic + "] len: " + length + " value");
 
-    int deviceGroup = doc["deviceGroup"];
     int type = doc["type"];
     int pin = doc["pin"];
     int value = doc["value"];
-
-    Serial.println(type);
-    Serial.println(pin);
-    Serial.println(value);
+    boolean isAnalog = doc["isAnalog"];
 
     switch (type)
     {
       case PINMODE_TYPE:
-        Serial.println("pin mode");
         if(value == 0) {
           pinMode(pin, OUTPUT);
         } else {
@@ -51,14 +45,13 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
             pinMode(pin, INPUT);
             Model::changed = TRUE;
             Model::inputPin[Model::indexInputPin].pin = pin;
-            Model::inputPin[Model::indexInputPin].digitalValue = 0;
-            Model::inputPin[Model::indexInputPin].analogValue = 0;
+            Model::inputPin[Model::indexInputPin].value = 0;
+            Model::inputPin[Model::indexInputPin].isAnalog = isAnalog;
             Model::indexInputPin++;
           }
         }
         break;
       case OUTPUT_TYPE:
-        Serial.println("Output");
         digitalWrite(pin, value);
         break;
       default:
@@ -67,23 +60,27 @@ void Model::changeState(char* topic, byte* payload, unsigned int length) {
 }
 
 void Model::tick() {
+
+
     JsonDocument doc;
     char msg[MSG_BUFFER_SIZE];
 
     for(int i=0; i < Model::indexInputPin; i++) {
-      int analogValue = analogRead(Model::inputPin[i].pin);
-      int digitalValue = digitalRead(Model::inputPin[i].pin);
-      
-      if(Model::inputPin[i].digitalValue != digitalValue || Model::inputPin[i].analogValue != analogValue) {
-        Model::inputPin[i].digitalValue = digitalValue;
-        Model::inputPin[i].analogValue  = analogValue;
+      int value;
+      if(Model::inputPin[i].isAnalog) {
+        value = analogRead(Model::inputPin[i].pin);
+      } else {
+        value = digitalRead(Model::inputPin[i].pin);
+      }
+
+      if(Model::inputPin[i].value != value ) {
+        Model::inputPin[i].value = value;
         Model::changed = TRUE;
-        Serial.println("changed");
       }
 
       if(Model::changed != FALSE) {
-        doc[i]["digitalValue"] = Model::inputPin[i].digitalValue;
-        doc[i]["analogValue"]  = Model::inputPin[i].analogValue;
+        doc[i]["pin"] = Model::inputPin[i].pin;
+        doc[i]["readValue"] = Model::inputPin[i].value;
       }
     }
 
@@ -95,6 +92,6 @@ void Model::tick() {
     }
 
     Model::changed = FALSE;
-
+    
     this->mqttManager->tick();
 }

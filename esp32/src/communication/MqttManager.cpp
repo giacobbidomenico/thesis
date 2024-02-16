@@ -60,7 +60,7 @@ void MqttManager::reconnect() {
 }
 
 void MqttManager::subscribeTopic(String topicName) {
-  client.subscribe(topicName.c_str());
+  reconnect();
 }
 
 //Send a message with the Mqtt protocol
@@ -71,7 +71,6 @@ void MqttManager::sendJsonMessage(String topic, String jsonMessage) {
   }
 
   jsonMessage.toCharArray(msg, MSG_BUFFER_SIZE);
-  Serial.println(String("Publishing message: ") + msg);
   client.publish(topic.c_str(), msg);
 }
 
